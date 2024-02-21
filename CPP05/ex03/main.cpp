@@ -3,29 +3,34 @@
 #include "ShrubberyCreationForm.hpp"
 #include "RobotomyRequestForm.hpp"
 #include "PresidentialPardonForm.hpp"
+#include "Intern.hpp"
 
 int main()
 {
 	try
 	{
-		Bureaucrat bob("Rénald", 4);
+		AForm* form;
+		Intern intern;
+		Bureaucrat bob("Bob", 2);
 
-		ShrubberyCreationForm shrubberyform("Rénald");
-		std::cout << shrubberyform << std::endl;
-		shrubberyform.beSigned(bob);
-		shrubberyform.execute(bob);
+		form = intern.makeForm("shrubbery creation", "Bob");
+		form->beSigned(bob);
+		std::cout << *form << std::endl;
+		form->execute(bob);
+		delete form;
 
-		RobotomyRequestForm robotform("Rénald");
-		std::cout << robotform << std::endl;
-		robotform.beSigned(bob);
-		robotform.execute(bob);
+		form = intern.makeForm("RobotomyRequest", "Same Bob");
+		form->beSigned(bob);
+		std::cout << *form << std::endl;
+		form->execute(bob);
+		delete form;
 
-		PresidentialPardonForm prezform("Rénald");
-		std::cout << prezform << std::endl;
-		prezform.beSigned(bob);
-		prezform.execute(bob);
+		form = intern.makeForm("PresidentialPardon", "Same Bob again");
+		form->beSigned(bob);
+		std::cout << *form << std::endl;
+		form->execute(bob);
+		delete form;
 
-		bob.executeForm(shrubberyform);
 	}
 	catch (Bureaucrat::GradeTooHighException& e)
 	{
@@ -43,6 +48,6 @@ int main()
 	{
 		std::cout << e.what() << std::endl;
 	}
-	
+
 	return (0);
 }

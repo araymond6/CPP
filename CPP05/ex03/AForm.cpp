@@ -85,6 +85,11 @@ bool AForm::execute(const Bureaucrat& executor) const
 		this->executeForm();
 		return (true);
 	}
+	else
+	{
+		std::cout << "Form is not signed." << std::endl;
+	}
+
 	return (false);
 }
 

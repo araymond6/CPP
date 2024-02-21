@@ -37,7 +37,7 @@ class AForm
 	const std::string& getName(void) const;
 	bool isSigned(void) const;
 	bool beSigned(const Bureaucrat& other);
-	bool execute(const Bureaucrat& other) const;
+	virtual bool execute(const Bureaucrat& other) const;
 	virtual void executeForm(void) const = 0;
 };
 
