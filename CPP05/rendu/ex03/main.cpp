@@ -10,17 +10,13 @@ int main()
 	try
 	{
 		Intern intern;
-		AForm* form;
 		Bureaucrat bob("Bob", 2);
 
-		form = intern.makeForm("shrubbery creation", "bob");
-		bob.signForm(*form);
-
-		// AForm* aform = intern.makeForm("shrubbery creation", "Bob");
-		// aform->beSigned(bob);
-		// std::cout << *aform << std::endl;
-		// aform->execute(bob);
-		// delete aform;
+		AForm* aform = intern.makeForm("shrubbery creation", "Bob");
+		aform->beSigned(bob);
+		std::cout << *aform << std::endl;
+		aform->execute(bob);
+		delete aform;
 
 		// AForm* bform = intern.makeForm("RobotomyRequest", "Same Bob");
 		// bform->beSigned(bob);

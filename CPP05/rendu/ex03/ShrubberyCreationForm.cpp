@@ -54,7 +54,7 @@ void ShrubberyCreationForm::executeForm(void) const
 	file << std::setw(5) << "^" << std::endl;
 	file << std::setw(6) << "/ \\" << std::endl;
 	file << std::setw(7) << "/   \\" << std::endl;
-	file << std::setw(8) << "/     \\" << std::endl;
+	file << std::setw(8) << "/__ __\\" << std::endl;
 	file << std::setw(5) << "|" << std::endl;
 	file << std::setw(5) << "|" << std::endl;
 	file << std::endl;

@@ -13,9 +13,9 @@ class Intern
 	~Intern(void);
 	Intern& operator = (const Intern& other);
 
-	typedef AForm* (Intern::*functionPointer)(void);
+	typedef AForm* (Intern::*functionPointer)(std::string target);
 	AForm* makeForm(std::string formName, std::string target);
-	AForm* Intern::makeShrubbery(std::string target);
-	AForm* Intern::makeRobotomy(std::string target);
-	AForm* Intern::makePresidential(std::string target);
+	AForm* makeShrubbery(std::string target);
+	AForm* makeRobotomy(std::string target);
+	AForm* makePresidential(std::string target);
 };

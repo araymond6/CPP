@@ -55,13 +55,14 @@ AForm* Intern::makeForm(std::string formName, std::string target)
 {
 	std::string ar[6] = {"ShubberyCreation", "RobotomyRequest", "PresidentialPardon", 
 						"shrubbery creation", "robotomy request", "presidential pardon"};
-	functionPointer fP[3] = {&Intern::makeShrubbery, &Intern::makeRobotomy, &Intern::makePresidential};
- // TODO: Make something w/ function pointers, necessary from subject AND evaluation. No if/else forest
+	functionPointer fP[] = {&Intern::makeShrubbery, &Intern::makeRobotomy, &Intern::makePresidential};
+
 	for (int i = 0; i < 6; i++)
 	{
 		if (ar[i] == formName)
 		{
-			return (fP[i % 3]);
+			AForm* form = (this->*fP[i%3])(target);
+			return (form);
 		}
 	}
 

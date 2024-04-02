@@ -6,6 +6,10 @@ int main()
 	{
 		Bureaucrat bob("Bob", 1);
 		std::cout << bob << std::endl;
+		bob.decrementGrade();
+		std::cout << bob << std::endl;
+		bob.incrementGrade();
+		std::cout << bob << std::endl;
 		bob.incrementGrade();
 		std::cout << bob << std::endl;
 	}
