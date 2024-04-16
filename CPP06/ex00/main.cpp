@@ -27,10 +27,8 @@ int main(int ac, char** av)
 		std::cout << "float: impossible" << endl;
 		std::cout << "double: impossible" << endl;
 	}
-	else if (type == INT)
-		convert.toInt(type);
 	else
-		convert.toFloat(type);
+		convert.convert(type);
 
 	return (0);
 }

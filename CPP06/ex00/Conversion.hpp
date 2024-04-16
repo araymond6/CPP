@@ -2,7 +2,10 @@
 #include <string>
 #include <climits>
 #include <cfloat>
+#include <cmath>
 #include <exception>
+#include <sstream>
+#include <limits>
 
 #define ERROR 1
 #define CHAR 2
@@ -13,6 +16,8 @@
 
 typedef std::string::iterator strIt;
 using std::endl;
+using std::cout;
+using std::to_string;
 
 class Conversion
 {
@@ -22,13 +27,15 @@ class Conversion
 		~Conversion(void);
 		Conversion& operator = (const Conversion& other);
 
-		void toChar(int type);
-		void toInt(int type);
-		void toFloat(int type);
-		void toDouble(int type);
+		void toChar(char c);
+		void toInt(int i);
+		void toFloat(float f);
+		void toDouble(double d);
 
+		void convert(int type);
 		int findType(void);
 
 	private:
 		const std::string _arg;
+
 };
