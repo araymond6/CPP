@@ -1,7 +1,10 @@
+#pragma once
+
 #include <iostream>
 #include <string>
 #include <climits>
 #include <cfloat>
+#include <cstdlib>
 #include <cmath>
 #include <exception>
 #include <sstream>
@@ -36,6 +39,6 @@ class Conversion
 		int findType(void);
 
 	private:
-		const std::string _arg;
+		std::string _arg;
 
 };

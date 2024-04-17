@@ -35,6 +35,11 @@ int Conversion::findType(void) // finds the base type of the original string
 		//first if checks if there is a +- in the wrong place
 		if (_arg.find_first_of("-") != std::string::npos && _arg.find_first_of("-") == 0 && _arg.find_last_of("-") != 0)
 			return (IMPOSSIBLE);
+		
+		long long l;
+		std::istringstream(_arg) >> l;
+		if (l < std::numeric_limits<int>::min() || l > std::numeric_limits<int>::max())
+			return (IMPOSSIBLE);
 		return (INT);
 	}
 
@@ -42,21 +47,21 @@ int Conversion::findType(void) // finds the base type of the original string
 	{
 		if (_arg.find_first_of("-") != std::string::npos && _arg.find_first_of("-") == 0 && _arg.find_last_of("-") != 0)
 			return (IMPOSSIBLE);
-
 		size_t yes = _arg.find_first_of('.');
 		if (yes != std::string::npos && _arg.find_first_of('.') != _arg.find_last_of('.') && _arg.front() == '.' && _arg.back() == '.')
 			return (IMPOSSIBLE);
-
 		if (_arg.find_last_of('f') != std::string::npos && _arg.find_first_of("f") != _arg.length() - 1)
 			return (IMPOSSIBLE);
-
 		if (_arg.find('f') != std::string::npos)
 		{
 			size_t pos = _arg.find("f");
-			//_arg.erase(pos, 1);
+			_arg.erase(pos, 1);
+			double d;
+			std::istringstream(_arg) >> d;
+			if (d < std::numeric_limits<float>::lowest() || d > std::numeric_limits<float>::max())
+				return (IMPOSSIBLE);
 			return (FLOAT);
 		}
-
 		return (DOUBLE);
 	}
 
@@ -96,7 +101,6 @@ void Conversion::convert(int type)
 			f = -HUGE_VALF;
 		else
 			std::istringstream(_arg) >> f;
-		std::cout << f << endl;
 		toFloat(f);
 	}
 	else
@@ -118,8 +122,10 @@ void Conversion::toChar(char c)
 
 	if (c >= 32 && c < 127)
 		cout << "char: " << c << endl;
-	else
+	else if ((c < 32 && c >= 0) || c == 127)
 		cout << "char: Non displayable" << endl;
+	else
+		cout << "char: impossible" << endl;
 
 	cout << "int: " << static_cast<int>(c) << endl;
 	cout << "float: " << std::fixed << static_cast<float>(c) << "f" << endl;
@@ -128,18 +134,24 @@ void Conversion::toChar(char c)
 
 void Conversion::toInt(int i)
 {
-	cout << "char: " << static_cast<char>(i) << endl;
+	if (i >= 32 && i < 127)
+		cout << "char: " << static_cast<char>(i) << endl;
+	else if ((i < 32 && i >= 0) || i == 127)
+		cout << "char: Non displayable" << endl;
+	else
+		cout << "char: impossible" << endl;
+
 	cout << "int: " << i << endl;
-	cout << "float: " << static_cast<float>(i) << "f" << endl;
+	cout << std::fixed << "float: " << static_cast<float>(i) << "f" << endl;
 	cout << "double: " << static_cast<double>(i) << endl;
 }
 
 void Conversion::toFloat(float f)
 {
-	char c = static_cast<char>(f);
-
-	if (c >= 32 && c < 127)
+	if (f >= 32 && f < 127)
 		cout << "char: " << static_cast<char>(f) << endl;
+	else if ((f < 32 && f >= 0) || f == 127)
+		cout << "char: Non displayable" << endl;
 	else
 		cout << "char: impossible" << endl;
 	
@@ -155,8 +167,25 @@ void Conversion::toFloat(float f)
 
 void Conversion::toDouble(double d)
 {
-	cout << "char: " << static_cast<char>(d) << endl;
-	cout << "int: " << static_cast<int>(d) << endl;
-	cout << "float: " << static_cast<float>(d) << "f" << endl;
-	cout << "double: " << d << endl;
+	if (d >= 32 && d < 127)
+		cout << "char: " << static_cast<char>(d) << endl;
+	else if ((d < 32 && d >= 0) || d == 127)
+		cout << "char: Non displayable" << endl;
+	else
+		cout << "char: impossible" << endl;
+
+
+	//check for int limit
+	if (d < std::numeric_limits<int>::min() || d > std::numeric_limits<int>::max())
+		cout << "int: impossible" << endl;
+	else
+		cout << "int: " << static_cast<int>(d) << endl;
+	
+	//check for float limit
+	if (d < std::numeric_limits<float>::lowest() || d > std::numeric_limits<float>::max())
+		cout << "float: impossible" << endl;
+	else
+		cout << std::fixed << "float: " << static_cast<float>(d) << "f" << endl;
+
+	cout << std::fixed << "double: " << d << endl;
 }
