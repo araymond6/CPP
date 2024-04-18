@@ -37,7 +37,7 @@ int Conversion::findType(void) // finds the base type of the original string
 			return (IMPOSSIBLE);
 		
 		long long l;
-		std::istringstream(_arg) >> l;
+		std::istringstream(_arg) >> l; // for int limit
 		if (l < std::numeric_limits<int>::min() || l > std::numeric_limits<int>::max())
 			return (IMPOSSIBLE);
 		return (INT);
@@ -48,7 +48,7 @@ int Conversion::findType(void) // finds the base type of the original string
 		if (_arg.find_first_of("-") != std::string::npos && _arg.find_first_of("-") == 0 && _arg.find_last_of("-") != 0)
 			return (IMPOSSIBLE);
 		size_t yes = _arg.find_first_of('.');
-		if (yes != std::string::npos && _arg.find_first_of('.') != _arg.find_last_of('.') && _arg.front() == '.' && _arg.back() == '.')
+		if ((yes != std::string::npos && _arg.find_first_of('.') != _arg.find_last_of('.')) || _arg.front() == '.' || _arg.back() == '.')
 			return (IMPOSSIBLE);
 		if (_arg.find_last_of('f') != std::string::npos && _arg.find_first_of("f") != _arg.length() - 1)
 			return (IMPOSSIBLE);
@@ -57,7 +57,7 @@ int Conversion::findType(void) // finds the base type of the original string
 			size_t pos = _arg.find("f");
 			_arg.erase(pos, 1);
 			double d;
-			std::istringstream(_arg) >> d;
+			std::istringstream(_arg) >> d; // for float limit
 			if (d < std::numeric_limits<float>::lowest() || d > std::numeric_limits<float>::max())
 				return (IMPOSSIBLE);
 			return (FLOAT);

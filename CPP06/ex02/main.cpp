@@ -1,23 +1,85 @@
-#include "Data.hpp"
+#include "Base.hpp"
 
-uintptr_t serialize(Data* ptr)
+Base *generate(void)
 {
-	return (reinterpret_cast<uintptr_t>(ptr));
+	int random;
+	srand(time(NULL));
+	random = rand() % 3;
+	
+	if (random == 0)
+	{
+		Base *newA = new A();
+		return (newA);
+	}
+	else if (random == 1)
+	{
+		Base *newB = new B();
+		return (newB);
+	}
+	else
+	{
+		Base *newC = new C();
+		return (newC);
+	}
 }
 
-Data* deserialize(uintptr_t raw)
+void identify(Base* p)
 {
-	return (reinterpret_cast<Data*>(raw));
+	A *ra = dynamic_cast<A*>(p);
+	B *rb = dynamic_cast<B*>(p);
+	C *rc = dynamic_cast<C*>(p);
+
+	if (ra)
+		std::cout << "Base* is of type A" << std::endl;
+	if (rb)
+		std::cout << "Base* is of type B" << std::endl;
+	if (rc)
+		std::cout << "Base* is of type C" << std::endl;
+}
+
+void identify(Base& p)
+{
+	try
+	{
+		A &ra = dynamic_cast<A&>(p);
+		(void)ra;
+		std::cout << "Base& is of type A" << std::endl;
+	}
+	catch (std::exception &e)
+	{
+		std::cout << "Base& is NOT of type A" << std::endl;
+	}
+
+	try
+	{
+		B &rb = dynamic_cast<B&>(p);
+		(void)rb;
+		std::cout << "Base& is of type B" << std::endl;
+	}
+	catch (std::exception &e)
+	{
+		std::cout << "Base& is NOT of type B" << std::endl;
+	}
+
+	try
+	{
+		C &rc = dynamic_cast<C&>(p);
+		(void)rc;
+		std::cout << "Base& is of type C" << std::endl;
+	}
+	catch (std::exception &e)
+	{
+		std::cout << "Base& is NOT of type C" << std::endl;
+	}
 }
 
 int main()
 {
-	Data data;
+	Base* newBase = generate();
 
-	data.raw = 9999;
-	uintptr_t ptr_t = serialize(&data);
-	Data *convertedData = deserialize(ptr_t);
-	std::cout << convertedData->raw << std::endl;
-
+	identify(newBase);
+	identify(*newBase);
+	
+	delete newBase;
 	return (0);
 }
