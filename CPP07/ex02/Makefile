@@ -5,7 +5,7 @@ CXXFLAGS = -Wall -Werror -Wextra -std=c++98
 
 OBJ_DIR = obj/
 
-SRCS = main.cpp Array.cpp
+SRCS = main.cpp
 OBJS = $(SRCS:.cpp=.o)
 OBJ_PRE = $(addprefix $(OBJ_DIR), $(OBJS))
 
