@@ -3,6 +3,7 @@
 #include <exception>
 #include <vector>
 #include <algorithm>
+#include <cstdlib>
 
 class Span
 {
@@ -15,8 +16,8 @@ class Span
 		Span& operator = (const Span& other);
 
 		void addNumber(int num);
-		int shortestSpan(void);
-		int longestSpan(void);
+		long long shortestSpan(void);
+		long long longestSpan(void);
 		void insert(unsigned int n, std::vector<int>::iterator start, std::vector<int>::iterator end);
 		size_t size(void) const;
 		void print(void);
@@ -33,14 +34,10 @@ class Span
 		{
 			virtual char const* what() const throw() { return("No space exception."); };
 		};
-		class BadInsertException : public std::exception
-		{
-			virtual char const* what() const throw() { return("Bad insert exception."); };
-		};
 
 	private:
 		size_t _limit;
 		std::vector<int> _span;
 };
 
-int getSpan(int a, int b);
+long long getSpan(int a, int b);

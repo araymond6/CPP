@@ -1,6 +1,6 @@
 #include "Span.hpp"
 
-int getSpan(int a, int b)
+long long getSpan(int a, int b)
 {
 	if (a >= b)
 		return (a - b);
@@ -15,12 +15,13 @@ int main()
 		vec.push_back(25 + i + i*15);
 	}
 
-
 	try
 	{
-		Span span(11);
-		span.addNumber(5);
-		span.insert(10, vec.begin(), vec.end());
+		std::cout << std::numeric_limits<int>::max() - -5 << std::endl;
+		Span span(12);
+		span.addNumber(-5);
+		span.addNumber(std::numeric_limits<int>::max());
+		span.insert(10, vec.begin(), vec.end()); // to fill span with vec, 10 is the amount of elements
 
 		std::cout << "Size: " << span.size() << std::endl;
 		span.print();

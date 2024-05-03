@@ -41,11 +41,11 @@ void Span::addNumber(int num)
 		throw NoSpaceException();
 }
 
-int Span::shortestSpan(void)
+long long Span::shortestSpan(void)
 {
-	int a;
-	int b;
-	int sspan;
+	long long a;
+	long long b;
+	long long sspan;
 
 	if (this->_span.size() == 0 || this->_span.size() == 1)
 		throw NoSpanException();
@@ -58,8 +58,8 @@ int Span::shortestSpan(void)
 		a = _span[i];
 		for (size_t j =  i + 1; j < this->_span.size(); j++)
 		{
-			b = _span[j];
-			int currentSpan = getSpan(a, b);
+			b = (long long)_span[j];
+			long long currentSpan = getSpan(a, b);
 			if (currentSpan < sspan)
 				sspan = currentSpan;
 		}
@@ -67,35 +67,24 @@ int Span::shortestSpan(void)
 	return (sspan);
 }
 
-int Span::longestSpan(void)
+long long Span::longestSpan(void)
 {
-	int a;
-	int b;
-	int lspan;
-	if (this->_span.size() == 0 || this->_span.size() == 1)
-		throw NoSpanException();
+	long long lspan = 0;
 
-	a = _span[0];
-	b = _span[1];
-	(a >= b) ? (lspan = a - b) : (lspan = b - a);
-	for (size_t i = 0; i < this->_span.size() - 1; i++)
+	if (!std::is_sorted(_span.begin(), _span.end()))
 	{
-		a = _span[i];
-		for (size_t j =  i + 1; j < this->_span.size(); j++)
-		{
-			b = _span[j];
-			int currentSpan = getSpan(a, b);
-			if (currentSpan > lspan)
-				lspan = currentSpan;
-		}
+		std::sort(_span.begin(), _span.end());
 	}
+
+	lspan = *(_span.end() - 1) - *_span.begin();
+
 	return (lspan);
 }
 
 void Span::insert(unsigned int n, std::vector<int>::iterator start, std::vector<int>::iterator end) // inserts numbers from a range of iterator
 {
 	if (n > _limit - _span.size())
-		throw BadInsertException();
+		throw NoSpaceException();
 	
 	_span.insert(_span.end(), start, end);
 }
