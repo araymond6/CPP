@@ -41,11 +41,11 @@ void Span::addNumber(int num)
 		throw NoSpaceException();
 }
 
-long long Span::shortestSpan(void)
+unsigned int Span::shortestSpan(void)
 {
-	long long a;
-	long long b;
-	long long sspan;
+	int a;
+	int b;
+	unsigned int sspan;
 
 	if (this->_span.size() == 0 || this->_span.size() == 1)
 		throw NoSpanException();
@@ -58,8 +58,8 @@ long long Span::shortestSpan(void)
 		a = _span[i];
 		for (size_t j =  i + 1; j < this->_span.size(); j++)
 		{
-			b = (long long)_span[j];
-			long long currentSpan = getSpan(a, b);
+			b = _span[j];
+			unsigned int currentSpan = getSpan(a, b);
 			if (currentSpan < sspan)
 				sspan = currentSpan;
 		}
@@ -67,9 +67,9 @@ long long Span::shortestSpan(void)
 	return (sspan);
 }
 
-long long Span::longestSpan(void)
+unsigned int Span::longestSpan(void)
 {
-	long long lspan = 0;
+	unsigned int lspan = 0;
 
 	if (!std::is_sorted(_span.begin(), _span.end()))
 	{

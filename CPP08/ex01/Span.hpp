@@ -4,6 +4,7 @@
 #include <vector>
 #include <algorithm>
 #include <cstdlib>
+#include <cmath>
 
 class Span
 {
@@ -16,8 +17,8 @@ class Span
 		Span& operator = (const Span& other);
 
 		void addNumber(int num);
-		long long shortestSpan(void);
-		long long longestSpan(void);
+		unsigned int shortestSpan(void);
+		unsigned int longestSpan(void);
 		void insert(unsigned int n, std::vector<int>::iterator start, std::vector<int>::iterator end);
 		size_t size(void) const;
 		void print(void);
@@ -40,4 +41,4 @@ class Span
 		std::vector<int> _span;
 };
 
-long long getSpan(int a, int b);
+unsigned int getSpan(int a, int b);
