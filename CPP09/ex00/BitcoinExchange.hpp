@@ -5,6 +5,7 @@
 #include <string>
 #include <utility>
 #include <map>
+#include <cstdlib>
 
 using std::endl;
 using std::string;

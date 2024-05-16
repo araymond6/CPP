@@ -26,7 +26,9 @@ void removeSpaces(string& line)
 bool verifyDate(string& date)
 {
 	// normal format: YYYY-MM-DD
-	(void)date;
+	int year = atoi((date.substr(0, 4)).c_str());
+	if (year > 2024 || year < 2009)
+
 	return (false);
 }
 
@@ -36,7 +38,7 @@ bool verifyNum(double num)
 	return (false);
 }
 
-void inputFile(std::ifstream& file, std::map<string, double>& db)
+void checkFile(std::ifstream& file, std::map<string, double>& db)
 {
 	string line;
 	string delimiter = "|";
@@ -50,7 +52,13 @@ void inputFile(std::ifstream& file, std::map<string, double>& db)
 		if (find == string::npos)
 		{
 			std::cerr << "Error: Bad input" << endl;
+			continue ;
 		}
+		string token1 = line.substr(0, find);
+		verifyDate(token1);
+		line.erase(0, find + 1);
+		string token2 = line;
+
 	}
 }
 
@@ -84,6 +92,8 @@ int main(int argc, char** argv)
 		return (1);
 	}
 
+	// use map.lower_bound for le précédent plus proche
+
 	std::ifstream file(argv[1]);
 	std::ifstream database("data.csv");
 	fileErrorCheck(file);
@@ -91,7 +101,7 @@ int main(int argc, char** argv)
 
 	std::map<string, double> db, input;
 	inputDb(database, db);
-	inputFile(file, db);
+	checkFile(file, db);
 	
 
 	return (0);
