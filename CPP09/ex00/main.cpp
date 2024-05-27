@@ -23,42 +23,119 @@ void removeSpaces(string& line)
 	}
 }
 
-bool verifyDate(string& date)
+bool verifyDate(string& date) // do all the verification for the date: year, month and day
 {
 	// normal format: YYYY-MM-DD
-	int year = atoi((date.substr(0, 4)).c_str());
-	if (year > 2024 || year < 2009)
+	int year, month, day;
 
-	return (false);
+	std::istringstream(date.substr(0, 4)) >> year; //= atoi((date.substr(0, 4)).c_str());
+	std::istringstream(date.substr(5, 7)) >> month;
+	std::istringstream(date.substr(8, 10)) >> day;
+
+	if (month > 12 || month < 1 || day > 31 || day < 1)
+		return (false);
+	else if ((month == 4 || month == 6 || month == 9 || month == 11) && day > 30)
+		return (false);
+	
+	if(year % 4 == 0) // for leap years
+	{
+		if (!(year % 100 == 0 && year % 400 != 0)) // not a leap year, only exceptions
+		{
+			if (month == 2 && day > 29)
+			return false;
+		}	
+	}
+	else if (month == 2 && day > 28)
+		return (false);
+
+	return (true);
 }
 
-bool verifyNum(double num)
+bool verifyNum(string& line)
 {
-	(void)num;
-	return (false);
+	double num;
+
+	std::istringstream(line) >> num;
+	if (num < 0 || num > 1000)
+		return (false);
+	return (true);
+}
+
+bool verifyFormat(string& line)
+{
+	size_t find = line.find('-');
+	if (find != 4)
+		return (false);
+	else if ((find = line.find('-', find + 1)) != 7)
+		return (false);
+
+	find = line.find('|');
+	if (find == string::npos || find == line.length())
+		return (false);
+	
+	for (int i = 0; i < 10; i++)
+	{
+		if (i == 4 || i == 7)
+			continue;
+		if (!isdigit(line.at(i)))
+			return (false);
+	}
+	
+	string token = line.substr(find + 1); // for the double
+	if (token.find_first_not_of("0123456789.") != string::npos)
+		return (false);
+	find = token.find_first_of('.');
+	if ((find != std::string::npos && token.find_first_of('.') != token.find_last_of('.')) || token.front() == '.' || token.back() == '.')
+		return (false); // checks for if '.' is wrongly placed, if present
+
+	return (true);
+}
+
+double btcExchange(std::map<string, double>& db, string date, string num)
+{
+	double f;
+	std::istringstream(num) >> f;
+	std::map<string, double>::iterator it = db.find(date);
+	if (it != db.end())
+		return (it->second * f);
+	else
+	{
+		it = db.lower_bound(date);
+		if (it != db.begin())
+			it--;
+		return (it->second * f);
+	}
+
+	return (0);
 }
 
 void checkFile(std::ifstream& file, std::map<string, double>& db)
 {
 	string line;
 	string delimiter = "|";
-	(void)db;
 
 	while (std::getline(file, line) && file.is_open())
 	{
 		removeSpaces(line);
-		std::cout << line << endl;
-		size_t find = line.find('|');
-		if (find == string::npos)
+		if (verifyFormat(line) == false)
 		{
-			std::cerr << "Error: Bad input" << endl;
+			std::cerr << "Error: Bad format, format has to be 'YYYY-MM-DD | NUM'" << endl;
 			continue ;
 		}
+		size_t find = line.find('|');
 		string token1 = line.substr(0, find);
-		verifyDate(token1);
-		line.erase(0, find + 1);
-		string token2 = line;
-
+		if (verifyDate(token1) == false)
+		{
+			std::cerr << "Error: Bad date, please use a valid date as input" << endl;
+			continue ;
+		}
+		string token2 = line.substr(find + 1);
+		if (verifyNum(token2) == false)
+		{
+			std::cerr << "Error: Bad number, value has to be between 0 and 1000" << endl;
+			continue ;
+		}
+		std::cout << line << " -> " << btcExchange(db, token1, token2) << endl;
 	}
 }
 
@@ -76,7 +153,6 @@ void inputDb(std::ifstream& file, std::map<string, double>& db)
 			continue ;
 		}
 		size_t find = line.find(delimiter);
-
 		string token1 = line.substr(0, find);
 		line.erase(0, find + 1);
 		string token2 = line;
@@ -92,14 +168,12 @@ int main(int argc, char** argv)
 		return (1);
 	}
 
-	// use map.lower_bound for le précédent plus proche
-
 	std::ifstream file(argv[1]);
 	std::ifstream database("data.csv");
 	fileErrorCheck(file);
 	fileErrorCheck(database);
 
-	std::map<string, double> db, input;
+	std::map<string, double> db;
 	inputDb(database, db);
 	checkFile(file, db);
 	
