@@ -46,6 +46,7 @@ unsigned int Span::shortestSpan(void)
 	int a;
 	int b;
 	unsigned int sspan;
+	unsigned int currentSpan;
 
 	if (this->_span.size() == 0 || this->_span.size() == 1)
 		throw NoSpanException();
@@ -56,10 +57,13 @@ unsigned int Span::shortestSpan(void)
 	for (size_t i = 0; i < this->_span.size(); i++)
 	{
 		a = _span[i];
-		for (size_t j =  i + 1; j < this->_span.size(); j++)
+		for (size_t j = i + 1; j < this->_span.size(); j++)
 		{
 			b = _span[j];
-			unsigned int currentSpan = getSpan(a, b);
+			if (a == std::max(a, b))
+				currentSpan = (unsigned int)(a - b);
+			else
+				currentSpan = (unsigned int)(b - a);
 			if (currentSpan < sspan)
 				sspan = currentSpan;
 		}
@@ -72,10 +76,7 @@ unsigned int Span::longestSpan(void)
 	unsigned int lspan = 0;
 
 	if (!std::is_sorted(_span.begin(), _span.end()))
-	{
 		std::sort(_span.begin(), _span.end());
-	}
-
 	lspan = *(_span.end() - 1) - *_span.begin();
 
 	return (lspan);

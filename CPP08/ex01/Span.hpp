@@ -40,5 +40,3 @@ class Span
 		size_t _limit;
 		std::vector<int> _span;
 };
-
-unsigned int getSpan(int a, int b);
