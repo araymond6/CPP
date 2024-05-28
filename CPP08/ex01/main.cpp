@@ -12,15 +12,15 @@ int main()
 	std::vector<int> vec;
 	for (int i = 0; i < 10; i++)
 	{
-		vec.push_back(25 + i + i*15);
+		vec.push_back(25 + i + i*15); // just to get numbers
 	}
 
 	try
 	{
 		Span span(12);
-		span.addNumber(std::numeric_limits<int>::min());
-		span.addNumber(std::numeric_limits<int>::max());
-		span.insert(10, vec.begin(), vec.end()); // to fill span with vec, 10 is the amount of elements
+		// span.addNumber(std::numeric_limits<int>::min());
+		// span.addNumber(std::numeric_limits<int>::max());
+		span.insert(10, vec.begin(), vec.end()); // to fill span with vec, 10 is the amount of elements in vec
 
 		std::cout << "Size: " << span.size() << std::endl;
 		span.print();
