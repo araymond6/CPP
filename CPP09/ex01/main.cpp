@@ -4,7 +4,7 @@ int main(int argc, char** argv)
 {
 	if (argc != 2)
 	{
-		std::cerr << "Error: the program requires an argument: <reverse polish notation mathematical equation>" << endl;
+		std::cout << "Error: the program requires an argument: <reverse polish notation mathematical equation>" << endl;
 		return (1);
 	}
 

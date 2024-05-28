@@ -34,12 +34,12 @@ void RPN::stackOps(void)
 		{
 			if (stack.size() < 2)
 			{
-				std::cerr << "Error: Not enough numbers for operations" << endl;
+				std::cout << "Error: Not enough numbers for operations" << endl;
 				exit(1);
 			}
-			int a = stack.top();
-			stack.pop();
 			int b = stack.top();
+			stack.pop();
+			int a = stack.top();
 			stack.pop();
 			if (arg[i] == '+')
 				stack.push(a + b);
@@ -51,7 +51,7 @@ void RPN::stackOps(void)
 			{
 				if (a == 0 || b == 0)
 				{
-					std::cerr << "Error: Division by 0" << endl;
+					std::cout << "Error: Division by 0" << endl;
 					exit(1);
 				}
 				stack.push(a / b);
@@ -64,4 +64,6 @@ void RPN::stackOps(void)
 	}
 	if (stack.size() == 1)
 		std::cout << stack.top() << endl;
+	else
+		std::cout << "Error: Not enough operators" << endl;
 }
