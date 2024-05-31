@@ -27,11 +27,14 @@ int main(int argc, char** argv)
 		pm.addVector(nb);
 	}
 
+	// std::deque<int>& deq = pm.getDeque();
+	std::vector<int>& vec = pm.getVector();
+
 	clock_t timer = clock();
-	pm.printDeque();
-	pm.insertionSort();
+	pm.mergesort(vec, 0, vec.size() - 1);
 	timer = clock() - timer;
 	std::cout << "Function took " << timer << " clicks and " << (((float)timer)/CLOCKS_PER_SEC) << " seconds." << endl;
+	pm.printVector();
 
 	return (0);
 }

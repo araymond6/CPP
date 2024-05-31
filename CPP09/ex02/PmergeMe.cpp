@@ -23,9 +23,9 @@ PmergeMe& PmergeMe::operator = (const PmergeMe& other)
 	return (*this);
 }
 
-void PmergeMe::printDeque(void)
+void PmergeMe::printDeque(void) const
 {
-	for(std::deque<int>::iterator it = deq.begin(); it != deq.end(); it++)
+	for(std::deque<int>::const_iterator it = deq.begin(); it != deq.end(); it++)
 	{
 		if (it + 1 != deq.end())
 			std::cout << *it << " ";
@@ -34,9 +34,9 @@ void PmergeMe::printDeque(void)
 	}
 }
 
-void PmergeMe::printVector(void)
+void PmergeMe::printVector(void) const
 {
-	for(std::vector<int>::iterator it = vec.begin(); it != vec.end(); it++)
+	for(std::vector<int>::const_iterator it = vec.begin(); it != vec.end(); it++)
 	{
 		if (it + 1 != vec.end())
 			std::cout << *it << " ";
@@ -45,11 +45,12 @@ void PmergeMe::printVector(void)
 	}
 }
 
-void PmergeMe::insertionSort(void) // does this work?
+std::deque<int>& PmergeMe::getDeque(void)
 {
-	for (std::deque<int>::iterator it = deq.begin(); it != deq.end(); it++)
-	{
-		std::rotate(std::upper_bound(deq.begin(), it, *it), it, it+1);
-	}
-	printDeque();
+	return (deq);
+}
+
+std::vector<int>& PmergeMe::getVector(void)
+{
+	return (vec);
 }
