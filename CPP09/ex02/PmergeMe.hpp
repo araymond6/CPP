@@ -54,11 +54,11 @@ void PmergeMe::insertionsort(T& ctn, int left, int right)
 	// }
 	// printDeque();
 
-	for (int i = left; i <= right; i++)
+	for (int i = left; i < right; i++)
 	{
-		int tmp = ctn[i];
-		int j = i;
-		while (j >= left && ctn[j - 1] > tmp)
+		int tmp = ctn[i + 1];
+		int j = i + 1;
+		while (j > left && ctn[j - 1] > tmp)
 		{
 			ctn[j] = ctn[j - 1];
 			j--;
@@ -70,19 +70,46 @@ void PmergeMe::insertionsort(T& ctn, int left, int right)
 template <typename T>
 void PmergeMe::merge(T& ctn, int left, int middle, int right)
 {
+	//stack overflow implementation
+	// int i = left;
+	// int j = middle + 1;
+	// int k = left;
+	// while(i <= middle && j <= right)
+	// {
+	// 	if (ctn[i] < ctn[j])
+	// 	{
+	// 		tmp[k] = ctn[i];
+	// 		i++;
+	// 	}
+	// 	else
+	// 	{
+	// 		tmp[k] = ctn[j];
+	// 		j++;
+	// 	}
+	// }
+	// for (; j <= right; j++, k++)
+	// 	tmp[k] = ctn[j];
+	// for (; i <= middle; i++, k++)
+	// 	tmp[k] = ctn[i];
+	// for (i = left; i <= right; i++)
+	// 	ctn[i] = tmp[i];
+
+	// opengenus implementation
+	int n1 = middle - left + 1;
+	int n2 = right - middle;
 	T tmpa(ctn.begin() + left, ctn.begin() + middle + 1);
 	T tmpb(ctn.begin() + middle + 1, ctn.begin() + right + 1);
 	int r = 0;
 	int l = 0;
 
-	for (int i = left; i < right - middle + 1; i++)
+	for (int i = left; i < right - left + 1; i++)
 	{
-		if (r == right - middle)
+		if (r == n2)
 		{
 			ctn[i] = tmpa[l];
 			l++;
 		}
-		else if (l == middle - left + 1)
+		else if (l == n1)
 		{
 			ctn[i] = tmpb[r];
 			r++;
@@ -103,9 +130,8 @@ void PmergeMe::merge(T& ctn, int left, int middle, int right)
 template <typename T>
 void PmergeMe::mergesort(T& ctn, int left, int right)
 {
-	if (right - left > 1)
+	if (right - left > 1) // num indicates threshold
 	{
-		std::cout << "mergesort" << std::endl;
 		int middle = (left + right) / 2;
 		mergesort(ctn, left, middle);
 		mergesort(ctn, middle + 1, right);
