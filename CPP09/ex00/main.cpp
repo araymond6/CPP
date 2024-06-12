@@ -39,7 +39,7 @@ bool verifyDate(string& date) // do all the verification for the date: year, mon
 	
 	if(year % 4 == 0) // for leap years
 	{
-		if (!(year % 100 == 0 && year % 400 != 0)) // not a leap year, only exceptions
+		if (!(year % 100 == 0 && year % 400 == 0)) // not a leap year, only exceptions
 		{
 			if (month == 2 && day > 29)
 			return false;

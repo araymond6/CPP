@@ -52,7 +52,7 @@ void RPN::stackOps(void)
 				if (a == 0 || b == 0)
 				{
 					std::cout << "Error: Division by 0" << endl;
-					exit(1);
+					return;
 				}
 				stack.push(a / b);
 			}
